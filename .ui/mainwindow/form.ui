@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1102</width>
+    <height>749</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Firmware Builder - v0.0.1</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>-10</x>
+      <y>-10</y>
+      <width>1111</width>
+      <height>681</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="tab_home">
+     <attribute name="title">
+      <string>Home</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_settings">
+     <attribute name="title">
+      <string>Settings</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_rootfs">
+     <attribute name="title">
+      <string>RootFS</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_kernel">
+     <attribute name="title">
+      <string>Kernel</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_build_kernel">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>611</width>
+        <height>611</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Build - Kernel</string>
+      </property>
+      <widget class="QLineEdit" name="kernel_Path">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>70</y>
+         <width>431</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="load_kernel_Button">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>70</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Load</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="download_kernel_Button">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>110</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Download</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_kernel_path">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>50</y>
+         <width>121</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Kernel Path:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="configure_Button">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>270</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Configure</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_bootloader">
+     <attribute name="title">
+      <string>Bootloader</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_build">
+     <attribute name="title">
+      <string>Build</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_fw_builder">
+     <attribute name="title">
+      <string>Firmware Builder</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_pi_gen">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>521</width>
+        <height>601</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>PI - GEN</string>
+      </property>
+      <widget class="QLabel" name="label_pi_gen">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>60</y>
+         <width>101</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PI - GEN:</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="pi_gen_Path">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>80</y>
+         <width>381</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="load_PIGen_Button">
+       <property name="geometry">
+        <rect>
+         <x>420</x>
+         <y>80</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Load</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_select_target_board_pigen">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>120</y>
+         <width>171</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Select Target-Board:</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_buildroot_boards_pigen">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>140</y>
+         <width>271</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Raspberry Pi 1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Raspberry Pi 2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Raspberry Pi 3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Raspberry Pi 4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Raspberry Pi 5</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QPushButton" name="build_pigen_Button">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>540</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Build</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_select_stages">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>180</y>
+         <width>171</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Select Stages to Skip :</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="skip_stages_Button">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>330</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SKIP</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_pigen_select_stages">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>430</y>
+         <width>271</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Stage0</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>stage 5</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QListWidget" name="listWidget">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>200</y>
+         <width>181</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(77, 77, 77);
+color: rgb(0, 255, 217)</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Stage0</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Stage6</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_buildroot">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>20</y>
+        <width>521</width>
+        <height>601</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Buildroot</string>
+      </property>
+      <widget class="QLineEdit" name="buildroot_Path">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>381</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_buildroot_path">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>101</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Buildroot - Path:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="load_buildroot_Button">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>80</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Load</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_buildroot_boards">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>140</y>
+         <width>271</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_select_voard">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>120</y>
+         <width>171</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Select Target-Board:</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="build_Button">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>420</y>
+         <width>80</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Build</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_flash">
+     <attribute name="title">
+      <string>Flash</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_help">
+     <attribute name="title">
+      <string>Help</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_update">
+     <attribute name="title">
+      <string>Update</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>700</y>
+      <width>1101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

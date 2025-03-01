@@ -1,0 +1,5 @@
+# Setzt den ARM64-Kernel
+arm_64bit=1
+kernel=kernel8.img
+enable_uart=1
+dtoverlay=disable-bt  # Falls keine serielle Konsole benötigt wird

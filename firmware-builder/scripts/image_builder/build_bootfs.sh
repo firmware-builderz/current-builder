@@ -25,8 +25,9 @@ build_bootfs() {
     cd $BOOTFS
 
     eco info "Creating cmdline.txt !!!"
+    echo "root=/dev/mmcblk0p2 rw rootfstype=ext4 init=/init console=ttyS0,115200" > cmdline.txt
     echo "console=serial0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 fsck.repair=yes rootwait
-    " > cmdline.txt
+    " > cmdline2.txt
 
 
     eco info "Creating config.txt !!!"

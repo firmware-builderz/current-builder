@@ -1,8 +1,7 @@
 #!/bin/bash
 
+source $(pwd)/scripts/funcs/functions.sh
 
-source $(pwd)/scripts/colored.sh
-source $(pwd)/scripts/logger.sh
 
 source $(pwd)/scripts/build_config_files.sh
 source $(pwd)/scripts/build_busybox.sh
@@ -29,12 +28,13 @@ export PROJEKT_DIR=$(pwd)
 export BUILDING=$(pwd)/work
 
 export OUTPUT=$(pwd)/output
+export IMAGES=$(pwd)/output/images 
 
 export BOOTFS=$(pwd)/work/bootfs
 export ROOTFS=$(pwd)/work/rootfs
 
 export LOG_DIR=$(pwd)/logs
-
+export LOG_FILE=$(pwd)/logs/firmware-builder.log
 
 ### END EXPORT VARIABLES ### END EXPORT VARIABLES ### END EXPORT VARIABLES ###
 
@@ -43,9 +43,9 @@ export LOG_DIR=$(pwd)/logs
 
 
 ### CREATES ROOTFS_DIR, BOOTFS_DIR & WORKING_DIR 
-eco info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $LOG_DIR"
-log info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $LOG_DIR"
-sudo mkdir -p $ROOTFS $BOOTFS $BUILDING $LOG_DIR
+eco info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $IMAGES, $LOG_DIR"
+log info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $IMAGES, $LOG_DIR"
+sudo mkdir -p $ROOTFS $BOOTFS $BUILDING $LOG_DIR $IMAGES
 
 
 
@@ -65,6 +65,8 @@ welcome() {
 
                                 
 }
+
+
 
 build_rootfs() {
 

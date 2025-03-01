@@ -5,7 +5,7 @@
 build_busybox() {
     URL="https://github.com/mirror/busybox.git"
 
-    eco info "BUILDING: BUSYBOX!!!"
+    log info "BUILDING: BUSYBOX!!!"
     sleep 1;
     
     cd $BUILDING

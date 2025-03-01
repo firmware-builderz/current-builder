@@ -37,12 +37,10 @@ echo "Starte Shell..."
 exec /bin/sh
 
 EOF
-
-eco info "Change Permissions on File to 755..."
+dl 2
 log info "Change Permissions on File to 755..."
 chmod +x $ROOTFS/init
-
-eco succsess "Created: /init - File & Granted Permissions !!!"
+dl 2
 log info "Created: /init - File & Granted Permissions !!!"
 }
 
@@ -73,11 +71,14 @@ create_inittab() {
 
 EOF
 
-eco info "Change Permissions on File to 755..."
+dl 2
+
 log info "Change Permissions on File to 755..."
+
 chmod +x $ROOTFS/init
 
-eco succsess "Created: /init - File & Granted Permissions !!!"
+dl 2
+
 log info "Created: /init - File & Granted Permissions !!!"
 
 }
@@ -161,10 +162,8 @@ start_shell
 
 EOF
 
-eco info "Finished creating rcS !!!"
 log info "Finished creating rcS!!!"
-
-eco info "Grant Permissions!!!"
+dl 2
 log info "Grant Permissions!!!"
 
 chmod +x $ROOTFS/etc/init.d/rcS
