@@ -19,34 +19,36 @@ build_busybox() {
     cd busybox
 
     sleep 1;
-    eco info "Configuring BUSYBOX..."
+
+    
+    log info "Configuring BUSYBOX..."
     make defconfig
 
+    log info "Copying busybox defconfig !!!"
     if [ -f "$BUILDER/configs/busybox/.config" ]; then
         eco info "USING CUSTOM CONFIG..."
         sleep 1;
         cp "$BUILDER/configs/busybox/.config" .config
     fi
 
+
     sleep 1;
-    eco info "BUILDING BUSYBOX..."
+    log info "BUILDING BUSYBOX..."
     make -j$(nproc)
 
     sleep 1;
-    eco info "Installing BUSYBOX..."
+    log info "Installing BUSYBOX..."
     make CONFIG_PREFIX=$ROOTFS install
-    # sudo make install CONFIG_PREFIX=$ROOTFS
-
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/sh
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/ls
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/mkdir
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/rm
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/mount
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/umount
-    # ln -sf $ROOTFS/bin/busybox $ROOTFS/bin/cat
 
     sleep 1;
-    eco success "BUSYBOX BUILD SUCCESSFULLY!!!"
+    log info "Fixing Busybox binaries..."
+
+    cd $ROOTFS/bin
+    for cmd in $(../bin/busybox --list); do ln -s busybox $cmd; done
+    cd $BUILDING
+
+    sleep 1;
+    log succ "BUSYBOX BUILD SUCCESSFULLY!!!"
 }
 
 

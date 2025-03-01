@@ -8,30 +8,42 @@ create_init() {
 #!/bin/sh
 # Minimales Init-Skript für das Raspberry Pi RootFS
 
-# Mounten der wichtigsten Dateisysteme
-# mount -t proc proc /proc
-# mount -t sysfs sysfs /sys
-# mount -t devtmpfs devtmpfs /dev
-# mount -t tmpfs tmpfs /tmp
+# Mounten der wichtigsten Dateisysteme mit Fehlerüberprüfung
+echo "Mounten der Dateisysteme..."
+mount -t proc proc /proc || echo "$(date) Fehler beim Mounten von /proc" >> /var/log/boot.log
+mount -t sysfs sysfs /sys || echo "$(date) Fehler beim Mounten von /sys" >> /var/log/boot.log
+mount -t devtmpfs devtmpfs /dev || echo "$(date) Fehler beim Mounten von /dev" >> /var/log/boot.log
+mount -t tmpfs tmpfs /tmp || echo "$(date) Fehler beim Mounten von /tmp" >> /var/log/boot.log
 
-# Mounten der wichtigsten Dateisysteme
-mount -t proc proc /proc || echo "Fehler beim Mounten von /proc" > /dev/console
-mount -t sysfs sysfs /sys || echo "Fehler beim Mounten von /sys" > /dev/console
-mount -t devtmpfs devtmpfs /dev || echo "Fehler beim Mounten von /dev" > /dev/console
-mount -t tmpfs tmpfs /tmp || echo "Fehler beim Mounten von /tmp" > /dev/console
+# Netzwerk starten (falls gewünscht und eth0 vorhanden)
+echo "Starte Netzwerkdienste..."
+ifconfig eth0 up || echo "$(date) Fehler beim Aktivieren von eth0" >> /var/log/boot.log
+udhcpc -i eth0 || echo "$(date) Fehler bei der DHCP-Anforderung" >> /var/log/boot.log
 
+# Optionale Netzwerkkonfiguration: Falls du eine statische IP willst, kannst du sie hier setzen:
+# ifconfig eth0 192.168.1.100 netmask 255.255.255.0 || echo "$(date) Fehler bei der statischen IP-Konfiguration" >> /var/log/boot.log
 
-# Netzwerk starten (falls gewünscht)
-# ifconfig eth0 up
-# udhcpc -i eth0
+# Optional: Start von Systemdiensten wie SSH, falls gewünscht
+# echo "Starte SSH-Dienst..."
+# /etc/init.d/ssh start
 
-# Starte die Shell
+# Hostname setzen (optional, falls gewünscht)
+echo "Setze Hostname auf 'blackzberry'..."
+echo "blackzberry" > /etc/hostname
+hostname "blackzberry" || echo "$(date) Fehler beim Setzen des Hostnamens" >> /var/log/boot.log
+
+# Starte die Shell (oder den gewünschten Dienst)
+echo "Starte Shell..."
 exec /bin/sh
 
 EOF
 
+eco info "Change Permissions on File to 755..."
+log info "Change Permissions on File to 755..."
 chmod +x $ROOTFS/init
 
+eco succsess "Created: /init - File & Granted Permissions !!!"
+log info "Created: /init - File & Granted Permissions !!!"
 }
 
 
@@ -42,65 +54,118 @@ create_inittab() {
 ::sysinit:/bin/mount -t proc proc /proc || echo "Fehler beim Mounten von /proc" > /dev/console
 ::sysinit:/bin/mount -t sysfs sysfs /sys || echo "Fehler beim Mounten von /sys" > /dev/console
 ::sysinit:/bin/mount -t tmpfs tmpfs /tmp || echo "Fehler beim Mounten von /tmp" > /dev/console
+::sysinit:/bin/mount -t devtmpfs devtmpfs /dev || echo "Fehler beim Mounten von /dev" > /dev/console
 ::sysinit:/bin/mount -o bind /dev /dev
 ::sysinit:/bin/mount -o bind /dev/pts /dev/pts
 
-# Optional Netzwerk starten (auskommentiert)
-# ::sysinit:/sbin/ifconfig eth0 up
-# ::sysinit:/sbin/udhcpc -i eth0
+# Netzwerk starten (auskommentiert für den Fall, dass es nicht benötigt wird)
+::sysinit:/sbin/ifconfig eth0 up || echo "Fehler beim Aktivieren von eth0" > /dev/console
+::sysinit:/sbin/udhcpc -i eth0 || echo "Fehler bei der DHCP-Anforderung" > /dev/console
 
 # Start der Shell, immer wieder neu starten
-::respawn:-/bin/sh
+::respawn:/bin/sh
 
 # Neustart von init, falls erforderlich
 ::restart:/sbin/init
 
 # CTRL+ALT+DEL ignorieren
 ::ctrlaltdel:/bin/echo "CTRL+ALT+DEL ignored"
+
 EOF
+
+eco info "Change Permissions on File to 755..."
+log info "Change Permissions on File to 755..."
+chmod +x $ROOTFS/init
+
+eco succsess "Created: /init - File & Granted Permissions !!!"
+log info "Created: /init - File & Granted Permissions !!!"
+
 }
 
 
 
-create_initd() {
+create_initd_rcs() {
    cat <<EOF > $ROOTFS/etc/init.d/rcS
 #!/bin/sh
-
-# Minimales System-Startskript für Raspberry Pi RootFS
+# rcS - Startskript für die Initialisierung von Systemdiensten
 
 echo "Starte das System..."
 
-# Mounten der wichtigsten Dateisysteme
-echo "Mounten von /proc..."
-mount -t proc none /proc || echo "Fehler beim Mounten von /proc" > /dev/console
+# Funktion zum Mounten der wichtigsten Dateisysteme
+mount_filesystems() {
+    echo "Mounten von /proc..."
+    mount -t proc none /proc || echo "Fehler beim Mounten von /proc" > /dev/console
 
-echo "Mounten von /sys..."
-mount -t sysfs none /sys || echo "Fehler beim Mounten von /sys" > /dev/console
+    echo "Mounten von /sys..."
+    mount -t sysfs none /sys || echo "Fehler beim Mounten von /sys" > /dev/console
 
-echo "Mounten von /tmp..."
-mount -t tmpfs none /tmp || echo "Fehler beim Mounten von /tmp" > /dev/console
+    echo "Mounten von /tmp..."
+    mount -t tmpfs none /tmp || echo "Fehler beim Mounten von /tmp" > /dev/console
 
-echo "Mounten von /dev..."
-mount -o bind /dev /dev
+    echo "Mounten von /dev..."
+    mount -o bind /dev /dev
 
-echo "Mounten von /dev/pts..."
-mount -o bind /dev/pts /dev/pts
+    echo "Mounten von /dev/pts..."
+    mount -o bind /dev/pts /dev/pts
+}
 
-# Optional Netzwerk starten (auskommentiert)
-# echo "Starte Netzwerk..."
-# /etc/init.d/networking start
+# Funktion zum Konfigurieren des Netzwerks
+configure_network() {
+    echo "Starte Netzwerkdienste..."
+    ifconfig eth0 up || echo "Fehler beim Aktivieren von eth0" > /dev/console
+    udhcpc -i eth0 || echo "Fehler bei der DHCP-Anforderung" > /dev/console
+}
 
-# Weitere Initialisierungen (z.B. Syslog starten)
-# echo "Starte Syslog..."
-# /etc/init.d/syslog start
+# Funktion zum Synchronisieren der Zeit (optional)
+configure_time() {
+    # ntpd -qg || echo "Fehler bei der Zeit-Synchronisierung" > /dev/console
+    # oder die Hardware-Uhr setzen (falls vorhanden)
+    hwclock -s || echo "Fehler beim Setzen der Hardware-Uhr" > /dev/console
+}
 
-# Loggen, dass der Start abgeschlossen ist
-echo "Systemstart abgeschlossen."
+# Funktion zum Starten von Systemdiensten (SSH, Webserver, etc.)
+start_ssh() {
+    # Beispiel: SSH starten
+    echo "Starte SSH-Dienst..."
+    /etc/init.d/ssh start || echo "Fehler beim Starten von SSH" > /dev/console
+}
+
+# Weitere Dienste starten
+start_additional_services() {
+    # Beispiel: Webserver starten
+    # echo "Starte Webserver..."
+    # /etc/init.d/apache2 start || echo "Fehler beim Starten des Webservers" > /dev/console
+}
+
+# Funktion zum Starten der Konsole (Shell)
+start_shell() {
+    echo "Starte Shell..."
+    exec /bin/sh
+}
+
+# Mounten der Dateisysteme
+mount_filesystems
+
+# Netzwerk konfigurieren
+configure_network
+
+# Zeit synchronisieren (optional)
+configure_time
+
+# Starte Dienste
+start_ssh
+start_additional_services
 
 # Starte die Konsole (Shell)
-echo "Starte die Shell..."
-exec /bin/sh
+start_shell
+
 EOF
+
+eco info "Finished creating rcS !!!"
+log info "Finished creating rcS!!!"
+
+eco info "Grant Permissions!!!"
+log info "Grant Permissions!!!"
 
 chmod +x $ROOTFS/etc/init.d/rcS
 }
@@ -109,19 +174,34 @@ chmod +x $ROOTFS/etc/init.d/rcS
 
 create_fstab() {
     cat <<EOF > $ROOTFS/etc/fstab
+# Mounten des proc-Dateisystems
 proc            /proc          proc      defaults        0      0
+
+# Mounten des sysfs-Dateisystems
 sysfs           /sys           sysfs     defaults        0      0
-tmpfs           /tmp           tmpfs     defaults        0      0
-/dev/mmcblk0p2  /              ext4      defaults        0      1
-/dev/mmcblk0p1  /boot          vfat      defaults        0      2
+
+# Mounten des tmpfs-Dateisystems für temporäre Dateien
+tmpfs           /tmp           tmpfs     defaults,noatime 0 0
+
+# Mounten von /dev als tmpfs
+tmpfs           /dev           tmpfs     defaults,noatime 0 0
+
+# Mounten von /dev/pts für PTS (pseudoterminals)
+devpts          /dev/pts       devpts    defaults,noatime 0 0
+
+# Mounten der Root-Partition (ext4)
+# Optimierungen: noatime, nodiratime für bessere Performance
+/dev/mmcblk0p2  /              ext4      defaults,noatime,nodiratime 0 1
+
+# Mounten der Bootpartition (vfat)
+# Optimierungen: noatime, um unnötige Lesezugriffe zu vermeiden
+/dev/mmcblk0p1  /boot          vfat      defaults,noatime 0 2
+
+# Optional: Mounten von /dev/shm für Shared Memory
+tmpfs           /dev/shm       tmpfs     defaults 0 0
+
 EOF
 }
-
-
-
-
-
-
 
 
 create_hostname() {
@@ -240,13 +320,21 @@ create_devices() {
 
 create_rclocal() {
     cat <<EOF > $ROOTFS/etc/rc.local
-# /etc/rc.local
 #!/bin/sh -e
 # rc.local
 
-# Hier können benutzerdefinierte Befehle hinzugefügt werden
+# Beispiel: Blinken einer LED an GPIO 17
+echo "1" > /sys/class/gpio/export
+echo "out" > /sys/class/gpio/gpio17/direction
+while true; do
+    echo "1" > /sys/class/gpio/gpio17/value
+    sleep 1
+    echo "0" > /sys/class/gpio/gpio17/value
+    sleep 1
+done &
 
 exit 0
+
 EOF
 }
 
@@ -263,7 +351,7 @@ EOF
 
 
 
-create_rcd() {
+create_networking() {
     cat <<EOF > $ROOTFS/etc/init.d/networking
 # /etc/init.d/networking
 # Netzwerkkonfiguration starten

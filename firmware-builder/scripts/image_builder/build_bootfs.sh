@@ -74,3 +74,37 @@ EOF
     eco info "Finished building BOOTFS!!!"
     log info "Finished building BOOTFS!!!"
 }
+
+
+flash_image() {
+    eco info "FLASHING: IMAGE!!!"
+    log info "FLASHING: IMAGE!!!"
+    
+    eco info "Listing Devices !!!"
+    log info "Listing Devices !!!"
+    sudo fdisk -l 
+
+
+    read -p "Selected Device: " dev
+    eco info "Formating Device: $dev !!!"
+    log info "Formating Device: $dev !!!"
+    dev="${dev}1"
+    sudo mkfs.vfat -F 32 /dev/$dev
+    dev="${dev}2"
+    sudo mkfs.ext4 /dev/$dev
+    eco succ "Finsihed formatting devices !!!"
+    log succ "Finsihed formatting devices !!!"
+
+    eco info "Mounting $dev at /mnt/rootfs !!!"
+    log info "Mounting $dev at /mnt/rootfs !!!"
+    sudo mkdir -p /mnt/rootfs
+    sudo mount /dev/$dev  /mnt/rootfs
+
+    eco info "Copying $ROOTFS to /mnt/rootfs !!!"
+    log info "Copying $ROOTFS to /mnt/rootfs !!!"
+    sudo cp -a rootfs/* /mnt/
+    log info "Unmounting /mnt/rootfs !!!"
+    sudo umount $dev 
+    log succ "Finsihed flashing image !!!"
+
+}

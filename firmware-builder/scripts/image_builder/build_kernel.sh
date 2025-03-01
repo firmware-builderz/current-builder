@@ -11,21 +11,26 @@ build_kernel() {
     eco info "Configuring with: bcm2712_defconfig - for RPI5..."
     log info "Configuring with: bcm2712_defconfig - for RPI5..."
     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2712_defconfig
+    
+
+    eco info "Building zImage, Image, Modules and dtbs..."
+    log info "Building zImage, Image, Modules and dtbs..."
+    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- zImage
+    # make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- dtbs
+    make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image modules dtbs
+    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- INSTALL_MOD_PATH=$ROOTFS modules_install
+    
     eco info "Installing HEADERS - for RPI5..."
     log info "Installing HEADERS - for RPI5..."
     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- headers_install INSTALL_HDR_PATH=$ROOTFS/usr
-    eco info "Installing MODULES - for RPI5..."
-    log info "Installing MODULES - for RPI5..."
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- INSTALL_MOD_PATH=$ROOTFS modules_install
-    eco info "Building zImage and dtbs..."
-    log info "Building zImage and dtbs..."
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- zImage
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- dtbs
 
-    eco info "Copying zImage - for RPI5..."
+
+    eco info "Copying Image - for RPI5..."
     log info "Copying DTB's - for RPI5..."
-    cp arch/arm64/boot/zImage $BOOTFS
+
+    cp arch/arm64/boot/Image $BOOTFS/kernel8.img
     cp arch/arm64/boot/dts/broadcom/*.dtb $BOOTFS
+    cp -r arch/arm64/boot/dts/overlays $BOOTFS
+
 
 }

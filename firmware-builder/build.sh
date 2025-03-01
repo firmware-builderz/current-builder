@@ -1,24 +1,25 @@
 #!/bin/bash
 
 
-
-source /media/blackbyte/ssd/.global_scripts/colored.sh
+source $(pwd)/scripts/colored.sh
 source $(pwd)/scripts/logger.sh
 
 source $(pwd)/scripts/build_config_files.sh
 source $(pwd)/scripts/build_busybox.sh
+
 source $(pwd)/scripts/build_libarys.sh
+source $(pwd)/scripts/build_toolchain.sh
 source $(pwd)/scripts/build_packages.sh
-
-source $(pwd)/scripts/builder/build_toolchain.sh
-source $(pwd)/scripts/builder/build_bash.sh
-
-source $(pwd)/scripts/build_kernel.sh
-
-
 
 source $(pwd)/scripts/builder/set_permissions.sh
 
+
+
+source $(pwd)/scripts/image_builder/build_kernel.sh
+source $(pwd)/scripts/image_builder/build_bootfs.sh
+source $(pwd)/scripts/image_builder/build_rootfs.sh
+source $(pwd)/scripts/image_builder/build_uboot.sh
+source $(pwd)/scripts/image_builder/build_initramfs.sh
 
 ### END IMPORT BUILDER FUNCTIONS ### END IMPORT BUILDER FUNCTIONS ### END IMPORT BUILDER FUNCTIONS ###
 
@@ -54,79 +55,120 @@ sudo mkdir -p $ROOTFS $BOOTFS $BUILDING $LOG_DIR
 
 
 welcome() {
-    echo "======================================================="
-    
-    eco info "Das ROOTFS-Verzeichnis ist: $ROOTFS"
+    reset;
+    echo "============================================================================="
+    echo "= Welcome to the Firmware Builder! Version: 0.0.1 Beta                      ="
+    echo "= This script will build your custom Linux Firmware for your Raspberry Pi.  ="
+    echo "============================================================================="                                              
+    echo "= Author: hexzhen3x7 || Build-Version: 0.0.1 Beta  || Firmware Builder      ="
+    echo "============================================================================="    
 
+                                
 }
-
-
 
 build_rootfs() {
 
-    eco info "Creating ROOTFS's - Directorys!!!... .. .\n $ROOTFS/{bin,sbin,etc/{init.d,udev/{rules.d},cron.d},lib,lib64,usr/{bin,lib,local,include,sbin},home,mnt,dev,proc,sys,root,tmp,var}"
+    eco info "Creating ROOTFS's - Directorys !!!... .. ."
    
     mkdir -p $ROOTFS/{bin,sbin,etc/{init.d,udev/{rules.d},cron.d,network},lib,lib64,usr/{src,bin,lib,include,sbin},home,opt,mnt,dev,proc,sys,root,tmp,var}
-
     chmod 1777 $ROOTFS/tmp  
 
-    eco info "Creating: DEVICES !!!"
-    create_devices
-    
-    eco info "Creating: INIT !!!"
-    create_init
-    
-    eco info "Creating: INITTAB !!!"
+    sudo mount -t proc proc $ROOTFS/proc
+    sudo mount -t sysfs sysfs $ROOTFS/sys
+    sudo mount -t devtmpfs devtmpfs $ROOTFS/dev
+    sudo mount -t tmpfs tmpfs $ROOTFS/tmp
+
+
+    eco info "Creating: $ROOTFS/init !!!"
+    log info "Creating: $ROOTFS/init !!!"
+    create_init;
+
+    eco info "Creating: inittab !!!"
+    log info "Creating: inittab !!!"
     create_inittab;
 
-    eco info "Creating: FSTAB !!!"
+    eco info "Creating: /etc/init.d/rcS !!!"
+    log info "Creating: /etc/init.d/rcS !!!"
+    create_initd_rcs;
+
+    eco info "Creating: /etc/fstab !!!"
+    log info "Creating: /etc/fstab !!!"
     create_fstab;
 
-    eco info "Creating: init.d/rcS !!!"
-    create_initd;
+    eco info "Creating: /etc/hostname  !!!"
+    log info "Creating: /etc/hostname  !!!"
+    create_hostname;
 
-    eco info "Creating: HOSTNAME !!!"
-    create_hostname
+    eco info "Creating: /etc/network/interfaces !!!"
+    log info "Creating: /etc/network/interfaces !!!"
+    create_ifaces;
 
-    eco info "Creating: INTERFACES !!!"
-    create_ifaces
+    eco info "Creating: /etc/hosts !!!"
+    log info "Creating: /etc/hosts !!!"
+    create_hosts;
 
-    eco info "Creating: HOSTS !!!"
-    create_hosts
 
-    eco info "Creating: PASSWD !!!"
-    create_passwd
+    eco info "Creating: /etc/profile !!!"
+    log info "Creating: /etc/profile !!!"
+    create_profile;
 
-    eco info "Creating: GROUPS !!!"
-    create_group
+    eco info "Creating: /etc/passwd !!!"
+    log info "Creating: /etc/passwd !!!"
+    create_passwd;
 
-    eco info "Creating: SHADOW !!!"
-    create_shadow
+    eco info "Creating: /etc/group !!!"
+    log info "Creating: /etc/group !!!"
+    create_group;
 
-    eco info "Creating: MOTD !!!" 
-    create_motd
+    eco info "Creating: /etc/shadow !!!"
+    log info "Creating: /etc/shadow !!!"
+    create_devices;
     
-    eco info "Creating: RESOLV !!!"
-    create_resolv
+    eco info "Creating: /etc/motd !!!"
+    log info "Creating: /etc/motd !!!"
+    create_motd;
 
-    eco info "Creating: PROFILE !!!"
-    create_profile
+    eco info "Creating: /etc/resolv.conf !!!"
+    log info "Creating: /etc/resolv.conf !!!"
+    create_resolv;
 
-    eco info "Creating: LD.SO.CONF !!!"
-    create_ldsoconf
+    eco info "Creating: /dev/* !!!"
+    log info "Creating: /dev/* !!!"
+    create_devices;
 
-    # eco info "Creating: RC.LOCAL !!!"
-    # create_rclocal
-    # create_udev
-    # create_cronjob
+    eco info "Creating: /etc/rc.local !!!"
+    log info "Creating: /etc/rc.local !!!"
+    create_rclocal;
+
+    eco info "Creating: LDSOCONF !!!"
+    log info "Creating: /etc/ld.so.conf !!!"
+    create_ldsoconf;
+
+    eco info "Creating: /etc/init.d/networking !!!"
+    log info "Creating: /etc/init.d/networking !!!"
+    create_networking;
+    
+    eco info "Creating: /etc/udev/rules.d/10-local.rules!!!"
+    log info "Creating: /etc/udev/rules.d/10-local.rules !!!"
+    create_udev;
+
+
+    eco succ "FINISHED-BUILD: Initialize Files!!!"
+    log info "FINISHED-BUILD: Initialize Files!!!"
 
 
 }
 
 
-
-
-
+build_images() {
+    eco info "Creating: BOOTFS IMAGE !!!"
+    log info "Creating: BOOTFS IMAGE !!!"
+    
+    build_initramfs;
+    build_bootfs;
+    build_uboot;
+    build_rootfs_image;
+}
 
 
 
@@ -141,33 +183,24 @@ initialize() {
     sleep 2;
     build_busybox;
     sleep 2;
+    build_toolchain;
+    sleep 2;
+    build_toolchain_rpi;
+    sleep 2;
     build_libarys;
-    # sleep 2;
-    # build_gmp;
-    # sleep 2;
-    # build_mpfr;
-    # sleep 2;
-    # build_mpc;
-    # sleep 2;
-    # build_gcc;
-    # sleep 2;
-    # build_glibc;
-    # sleep 2;
-    # build_zlib;
-    # sleep 2;
-    # build_db;
-    # sleep 2;
-    # build_toolchain_rpi;
-    # sleep 2;
-    # build_toolchain;
-    # sleep 2;
-    # build_bash;
-    # sleep 2;
-    # build_rpm;
-    # sleep 2;
-    # build_opkg;
-    # sleep 2;
+    sleep 2;
+    build_packages:
+    sleep 2;
     set_permissions;
+    sleep 2;
+    build_kernel;
+    sleep 2;
+    build_initramfs;
+    sleep 2;
+    build_uboot;
+    sleep 2;
+    build_bootfs;
+    sleep 2;
 }
 
 
