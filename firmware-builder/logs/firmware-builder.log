@@ -1,0 +1,90 @@
+[32m[INFO] [0mCreating: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/rootfs, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/bootfs, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/output/images,/media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/packages, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/logs
+[32m[INFO] [0mCreating: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/rootfs/init !!!
+[32m[INFO] [0mChange Permissions on File to 755...
+[32m[INFO] [0mCreated: /init - File & Granted Permissions !!!
+[32m[INFO] [0mCreating: inittab !!!
+[32m[INFO] [0mChange Permissions on File to 755...
+[32m[INFO] [0mCreated: /init - File & Granted Permissions !!!
+[32m[INFO] [0mCreating: /etc/init.d/rcS !!!
+[32m[INFO] [0mFinished creating rcS!!!
+[32m[INFO] [0mGrant Permissions!!!
+[32m[INFO] [0mCreating: /etc/fstab !!!
+[32m[INFO] [0mCreating: /etc/hostname  !!!
+[32m[INFO] [0mCreating: /etc/network/interfaces !!!
+[32m[INFO] [0mCreating: /etc/hosts !!!
+[32m[INFO] [0mCreating: /etc/profile !!!
+[32m[INFO] [0mCreating: /etc/passwd !!!
+[32m[INFO] [0mCreating: /etc/group !!!
+[32m[INFO] [0mCreating: /etc/shadow !!!
+[32m[INFO] [0mCreating: /etc/motd !!!
+[32m[INFO] [0mCreating: /etc/resolv.conf !!!
+[32m[INFO] [0mCreating: /dev/* !!!
+[32m[INFO] [0mCreating: /etc/rc.local !!!
+[32m[INFO] [0mCreating: /etc/ld.so.conf !!!
+[32m[INFO] [0mCreating: /etc/init.d/networking !!!
+[32m[INFO] [0mCreating: /etc/udev/rules.d/10-local.rules !!!
+[32m[INFO] [0mFINISHED-BUILD: Initialize Files!!!
+[32m[INFO] [0mBUILDING: BUSYBOX!!!
+[32m[INFO] [0mConfiguring BUSYBOX...
+[32m[INFO] [0mCopying busybox defconfig !!!
+[32m[INFO] [0mBUILDING BUSYBOX...
+[32m[INFO] [0mInstalling BUSYBOX...
+[32m[INFO] [0mFixing Busybox binaries...
+[36m[SUCCESS] [0mBUSYBOX BUILD SUCCESSFULLY!!!
+[32m[INFO] [0mINITRAMFS BUILDER STARTED !!!
+[32m[INFO] [0mChanging WorkDirectory to: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/rootfs !!!
+[32m[INFO] [0mCreating: initramfs >> /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/bootfs/initramfs.gz !!!
+[36m[SUCCESS] [0mSuccessfully built /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/bootfs/initramfs.gz !!!
+[32m[INFO] [0mStart Building: U-BOOT !!!
+[32m[INFO] [0mCompiling U-BOOT !!!
+[32m[INFO] [0mCopying: u-boot.bin to: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/bootfs !!!
+[36m[SUCCESS] [0mFinsihed building u-boot image !!!
+[32m[INFO] [0mBUILDING: BOOTFS!!!
+[32m[INFO] [0mDownloading BOOTFS...
+[32m[INFO] [0mDownlading BOOT-FILES!!!
+[32m[INFO] [0mCopying BOOT-FILES to BOOTFS...
+[32m[INFO] [0mCD into: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/bootfs!!!
+[32m[INFO] [0mCreating config.txt !!!
+[32m[INFO] [0mEntering: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/output
+[32m[INFO] [0mCreating boot.vfat Image!!!
+[32m[INFO] [0mCreating 'boot.vfat' Filesystem!!!
+[32m[INFO] [0mMounting 'boot.vfat' Filesystem!!!
+[32m[INFO] [0mCopying BOOTFS to 'boot.vfat' Filesystem!!!
+[32m[INFO] [0mListing current BOOTFS's Files !!!
+[32m[INFO] [0mUnmounting 'boot.vfat' Filesystem!!!
+[32m[INFO] [0mFinished building BOOTFS!!!
+[32m[INFO] [0mCreating: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/rootfs, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/bootfs, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/output/images,/media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/packages, /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/logs
+[32m[INFO] [0mCreating: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/rootfs/init !!!
+[32m[INFO] [0mChange Permissions on File to 755...
+[32m[INFO] [0mCreated: /init - File & Granted Permissions !!!
+[32m[INFO] [0mCreating: inittab !!!
+[32m[INFO] [0mChange Permissions on File to 755...
+[32m[INFO] [0mCreated: /init - File & Granted Permissions !!!
+[32m[INFO] [0mCreating: /etc/init.d/rcS !!!
+[32m[INFO] [0mFinished creating rcS!!!
+[32m[INFO] [0mGrant Permissions!!!
+[32m[INFO] [0mCreating: /etc/fstab !!!
+[32m[INFO] [0mCreating: /etc/hostname  !!!
+[32m[INFO] [0mCreating: /etc/network/interfaces !!!
+[32m[INFO] [0mCreating: /etc/hosts !!!
+[32m[INFO] [0mCreating: /etc/profile !!!
+[32m[INFO] [0mCreating: /etc/passwd !!!
+[32m[INFO] [0mCreating: /etc/group !!!
+[32m[INFO] [0mCreating: /etc/shadow !!!
+[32m[INFO] [0mCreating: /etc/motd !!!
+[32m[INFO] [0mCreating: /etc/resolv.conf !!!
+[32m[INFO] [0mCreating: /dev/* !!!
+[32m[INFO] [0mCreating: /etc/rc.local !!!
+[32m[INFO] [0mCreating: /etc/ld.so.conf !!!
+[32m[INFO] [0mCreating: /etc/init.d/networking !!!
+[32m[INFO] [0mCreating: /etc/udev/rules.d/10-local.rules !!!
+[32m[INFO] [0mFINISHED-BUILD: Initialize Files!!!
+[32m[INFO] [0mBUILDING: BUSYBOX!!!
+[32m[INFO] [0mConfiguring BUSYBOX...
+[32m[INFO] [0mCopying busybox defconfig !!!
+[32m[INFO] [0mBUILDING BUSYBOX...
+[32m[INFO] [0mInstalling BUSYBOX...
+[32m[INFO] [0mFixing Busybox binaries...
+[36m[SUCCESS] [0mBUSYBOX BUILD SUCCESSFULLY!!!
+[32m[INFO] [0m🔧 Setze Berechtigungen im RootFS: /media/blackbyte/ssd/Entwicklung/Geräte-Entwicklung/EntwicklerBoards/Raspberry-Pi/Raspberry-Pi-5/Entwicklungs-Umgebungen/Current_Builder/firmware-builder/work/rootfs
+[32m[INFO] [0m📁 Setze Verzeichnis-Berechtigungen...

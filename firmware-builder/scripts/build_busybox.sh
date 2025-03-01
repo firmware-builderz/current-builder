@@ -38,7 +38,7 @@ build_busybox() {
 
     sleep 1;
     log info "Installing BUSYBOX..."
-    make CONFIG_PREFIX=$ROOTFS install
+    make CONFIG_PREFIX=$ROOTFS/ install
 
     sleep 1;
     log info "Fixing Busybox binaries..."

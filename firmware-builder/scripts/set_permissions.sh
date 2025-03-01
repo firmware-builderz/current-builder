@@ -2,23 +2,15 @@
 
 
 set_permissions() {
-    # RootFS Pfad
-    # ROOTFS="$1"
-
-    # if [ -z "$ROOTFS" ]; then
-    #     eco info info "⚠  Nutzung: $0 /pfad/zum/rootfs"
-    #     exit 1
-    # fi
-
-    eco info "🔧 Setze Berechtigungen im RootFS: $ROOTFS"
+    log info "🔧 Setze Berechtigungen im RootFS: $ROOTFS"
 
     # Wichtige Verzeichnisse mit Standardrechten
-    eco info "📁 Setze Verzeichnis-Berechtigungen..."
+    log info "📁 Setze Verzeichnis-Berechtigungen..."
     find $ROOTFS -type d -exec sudo chmod 755 {} \;
     find $ROOTFS -type d -exec sudo sudo chown root:root {} \;
 
         # Wichtige Systemdateien mit korrekten Berechtigungen
-    eco info "🛡  Setze Systemdatei-Berechtigungen..."
+    log info "🛡  Setze Systemdatei-Berechtigungen..."
 
 
     sudo chmod +x $ROOTFS/init
@@ -55,7 +47,7 @@ set_permissions() {
     sudo sudo chown root:root $ROOTFS/etc/hostname
 
     # Binaries ausführbar machen
-    eco info "🚀 Setze Berechtigungen für Binaries..."
+    log info "🚀 Setze Berechtigungen für Binaries..."
 
     find $ROOTFS/bin -type f -exec sudo chmod 755 {} \;
     find $ROOTFS/sbin -type f -exec sudo chmod 755 {} \;
@@ -70,14 +62,14 @@ set_permissions() {
         # Symlink für /bin/sh setzen
         if [ ! -L "$ROOTFS/bin/sh" ]; then
             ln -sf /bin/busybox $ROOTFS/bin/sh
-            eco info "🔗 Symlink /bin/sh -> /bin/busybox erstellt."
+            log info "🔗 Symlink /bin/sh -> /bin/busybox erstellt."
         fi
     else
-        eco info "⚠  BusyBox nicht gefunden unter $ROOTFS/bin/busybox"
+        log info "⚠  BusyBox nicht gefunden unter $ROOTFS/bin/busybox"
     fi
 
     # Devices-Verzeichnis
-    eco info "🖧 Setze Rechte für /dev, /sys, /tmp und /proc..."
+    log info "🖧 Setze Rechte für /dev, /sys, /tmp und /proc..."
     sudo chmod 755 $ROOTFS/dev
     sudo chmod 755 $ROOTFS/proc
     sudo chmod 755 $ROOTFS/sys
@@ -93,5 +85,5 @@ set_permissions() {
     fi
 
     # Abschluss
-    eco info "✅ Berechtigungen erfolgreich gesetzt!"
+    log info "✅ Berechtigungen erfolgreich gesetzt!"
 }

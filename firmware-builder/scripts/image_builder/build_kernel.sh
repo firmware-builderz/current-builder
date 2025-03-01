@@ -32,5 +32,5 @@ build_kernel() {
     cp arch/arm64/boot/dts/broadcom/*.dtb $BOOTFS
     cp -r arch/arm64/boot/dts/overlays $BOOTFS
 
-
+    log info "Kernel build completed successfully!"
 }

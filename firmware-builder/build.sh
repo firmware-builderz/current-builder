@@ -7,12 +7,12 @@ source $(pwd)/scripts/build_config_files.sh
 source $(pwd)/scripts/build_busybox.sh
 
 source $(pwd)/scripts/build_libarys.sh
-source $(pwd)/scripts/build_toolchain.sh
+source $(pwd)/scripts/build_toolchains.sh
 source $(pwd)/scripts/build_packages.sh
 
-source $(pwd)/scripts/builder/set_permissions.sh
+source $(pwd)/scripts/set_permissions.sh
 
-
+source $(pwd)/scripts/build_packages.sh
 
 source $(pwd)/scripts/image_builder/build_kernel.sh
 source $(pwd)/scripts/image_builder/build_bootfs.sh
@@ -36,6 +36,8 @@ export ROOTFS=$(pwd)/work/rootfs
 export LOG_DIR=$(pwd)/logs
 export LOG_FILE=$(pwd)/logs/firmware-builder.log
 
+export PACKAGES=$(pwd)/work/packages
+
 ### END EXPORT VARIABLES ### END EXPORT VARIABLES ### END EXPORT VARIABLES ###
 
 
@@ -43,9 +45,8 @@ export LOG_FILE=$(pwd)/logs/firmware-builder.log
 
 
 ### CREATES ROOTFS_DIR, BOOTFS_DIR & WORKING_DIR 
-eco info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $IMAGES, $LOG_DIR"
-log info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $IMAGES, $LOG_DIR"
-sudo mkdir -p $ROOTFS $BOOTFS $BUILDING $LOG_DIR $IMAGES
+log info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $IMAGES,$PACKAGES, $LOG_DIR"
+sudo mkdir -p $ROOTFS $BOOTFS $BUILDING $IMAGES $PACKAGES $LOG_DIR
 
 
 
@@ -167,13 +168,34 @@ build_images() {
     log info "Creating: BOOTFS IMAGE !!!"
     
     build_initramfs;
+    dl 2
     build_bootfs;
+    dl 2
     build_uboot;
+    dl 2
     build_rootfs_image;
 }
 
 
+install_packages() {
+    log info "Installing Packages!!!..."
+    cd $PACKAGES
+    get_packages;
+    build_gmp;
+    build_mpc;
+    build_pkconfig;
+    build_zlib;
+    build_glibc;
+    build_binutils;
+    build_make;
+    build_gcc;
+    build_openssl;
+    build_cmake;
+    build_ncurses;
+    build_python;
+    build_libtool;
 
+}
 
 
 initialize() {
@@ -182,27 +204,19 @@ initialize() {
     welcome;
 
     build_rootfs;
-    sleep 2;
+    dl 2;
     build_busybox;
-    sleep 2;
+    dl 2;
     build_toolchain;
-    sleep 2;
+    dl 2;
     build_toolchain_rpi;
-    sleep 2;
-    build_libarys;
-    sleep 2;
-    build_packages:
-    sleep 2;
+    dl 2;
+    install_packages;
+    dl 2;
+  #  build_kernel;
     set_permissions;
-    sleep 2;
-    build_kernel;
-    sleep 2;
-    build_initramfs;
-    sleep 2;
-    build_uboot;
-    sleep 2;
-    build_bootfs;
-    sleep 2;
+    dl 2
+    build_images
 }
 
 
