@@ -1,18 +1,38 @@
 #!/bin/bash
 
 
-#!/bin/bash
+
+source /media/blackbyte/ssd/.global_scripts/colored.sh
+source $(pwd)/scripts/logger.sh
+
+source $(pwd)/scripts/build_config_files.sh
+source $(pwd)/scripts/build_busybox.sh
+source $(pwd)/scripts/build_libarys.sh
+source $(pwd)/scripts/build_packages.sh
+
+source $(pwd)/scripts/builder/build_toolchain.sh
+source $(pwd)/scripts/builder/build_bash.sh
+
+source $(pwd)/scripts/build_kernel.sh
 
 
+
+source $(pwd)/scripts/builder/set_permissions.sh
+
+
+### END IMPORT BUILDER FUNCTIONS ### END IMPORT BUILDER FUNCTIONS ### END IMPORT BUILDER FUNCTIONS ###
 
 
 ### EXPORT VARIABLES ### EXPORT VARIABLES ### EXPORT VARIABLES ### ###########
-export BUILDER=$(pwd)
+export PROJEKT_DIR=$(pwd)
 export BUILDING=$(pwd)/work
-export BUSYBOX=$(pwd)/work/busybox
+
+export OUTPUT=$(pwd)/output
 
 export BOOTFS=$(pwd)/work/bootfs
 export ROOTFS=$(pwd)/work/rootfs
+
+export LOG_DIR=$(pwd)/logs
 
 
 ### END EXPORT VARIABLES ### END EXPORT VARIABLES ### END EXPORT VARIABLES ###
@@ -22,47 +42,20 @@ export ROOTFS=$(pwd)/work/rootfs
 
 
 ### CREATES ROOTFS_DIR, BOOTFS_DIR & WORKING_DIR 
-sudo mkdir -p $ROOTFS $BOOTFS $BUILDING 
+eco info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $LOG_DIR"
+log info "Creating: $ROOTFS, $BOOTFS, $BUILDING, $LOG_DIR"
+sudo mkdir -p $ROOTFS $BOOTFS $BUILDING $LOG_DIR
 
 
 
-### IMPORT GLOBAL FUNCTIONS ### IMPORT GLOBAL FUNCTIONS IMPORT GLOBAL FUNCTIONS ######################
-source /media/blackbyte/ssd/.global_scripts/colored.sh
-source $(pwd)/scripts/logger.sh
 
-### IMPORT BUILDER FUNCTIONS ### IMPORT BUILDER FUNCTIONS IMPORT BUILDER FUNCTIONS ###################
-source $(pwd)/scripts/build_config_files.sh
-
-source $(pwd)/scripts/build_busybox.sh
-source $(pwd)/scripts/build_libarys.sh
-source $(pwd)/scripts/build_kernel.sh
-source $(pwd)/scripts/builder/build_gcc.sh
-source $(pwd)/scripts/builder/build_glibc.sh
-source $(pwd)/scripts/builder/build_zlib.sh
-source $(pwd)/scripts/builder/build_db.sh
-source $(pwd)/scripts/builder/build_toolchain.sh
-source $(pwd)/scripts/builder/build_bash.sh
-
-source $(pwd)/scripts/builder/build_rpm.sh
-source $(pwd)/scripts/builder/build_opkg.sh
-
-source $(pwd)/scripts/builder/build_bootloader.sh
-source $(pwd)/scripts/builder/build_image.sh
-
-
-source $(pwd)/scripts/builder/set_permissions.sh
-
-
-### END IMPORT BUILDER FUNCTIONS ### END IMPORT BUILDER FUNCTIONS ### END IMPORT BUILDER FUNCTIONS ###
 
 
 
 
 welcome() {
-    eco x "=============================================="
-    eco info " ROOTFS Builder Started || v0.1"
-    eco x "=============================================="
-
+    echo "======================================================="
+    
     eco info "Das ROOTFS-Verzeichnis ist: $ROOTFS"
 
 }
